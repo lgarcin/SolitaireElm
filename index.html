@@ -4846,7 +4846,10 @@ var author$project$Main$update = F2(
 				}
 		}
 	});
+var author$project$Main$ButtonStyle = {$: 'ButtonStyle'};
 var author$project$Main$GridStyle = {$: 'GridStyle'};
+var author$project$Main$MessageStyle = {$: 'MessageStyle'};
+var author$project$Main$Restart = {$: 'Restart'};
 var author$project$Main$HoleStyle = {$: 'HoleStyle'};
 var author$project$Main$Move = function (a) {
 	return {$: 'Move', a: a};
@@ -4912,10 +4915,91 @@ var author$project$Main$rangeBoard = function () {
 		ymin: A2(elm$core$Maybe$withDefault, 0, ymin)
 	};
 }();
-var elm$core$String$fromInt = _String_fromNumber;
+var elm$core$Basics$apL = F2(
+	function (f, x) {
+		return f(x);
+	});
 var elm$core$Basics$identity = function (x) {
 	return x;
 };
+var mdgriffith$style_elements$Element$Internal$Model$GridCoords = function (a) {
+	return {$: 'GridCoords', a: a};
+};
+var mdgriffith$style_elements$Element$Internal$Model$OnGrid = function (a) {
+	return {$: 'OnGrid', a: a};
+};
+var mdgriffith$style_elements$Element$Internal$Model$Element = function (a) {
+	return {$: 'Element', a: a};
+};
+var mdgriffith$style_elements$Element$Internal$Model$Empty = {$: 'Empty'};
+var mdgriffith$style_elements$Element$Internal$Model$Layout = function (a) {
+	return {$: 'Layout', a: a};
+};
+var mdgriffith$style_elements$Element$Internal$Model$Raw = function (a) {
+	return {$: 'Raw', a: a};
+};
+var mdgriffith$style_elements$Element$Internal$Model$Spacer = function (a) {
+	return {$: 'Spacer', a: a};
+};
+var mdgriffith$style_elements$Element$Internal$Model$Text = F2(
+	function (a, b) {
+		return {$: 'Text', a: a, b: b};
+	});
+var mdgriffith$style_elements$Element$Internal$Modify$addAttr = F2(
+	function (prop, el) {
+		switch (el.$) {
+			case 'Empty':
+				return mdgriffith$style_elements$Element$Internal$Model$Empty;
+			case 'Raw':
+				var h = el.a;
+				return mdgriffith$style_elements$Element$Internal$Model$Raw(h);
+			case 'Spacer':
+				var x = el.a;
+				return mdgriffith$style_elements$Element$Internal$Model$Spacer(x);
+			case 'Layout':
+				var elm = el.a;
+				return mdgriffith$style_elements$Element$Internal$Model$Layout(
+					_Utils_update(
+						elm,
+						{
+							attrs: A2(elm$core$List$cons, prop, elm.attrs)
+						}));
+			case 'Element':
+				var elm = el.a;
+				return mdgriffith$style_elements$Element$Internal$Model$Element(
+					_Utils_update(
+						elm,
+						{
+							attrs: A2(elm$core$List$cons, prop, elm.attrs)
+						}));
+			default:
+				var dec = el.a;
+				var content = el.b;
+				return mdgriffith$style_elements$Element$Internal$Model$Element(
+					{
+						absolutelyPositioned: elm$core$Maybe$Nothing,
+						attrs: _List_fromArray(
+							[prop]),
+						child: A2(mdgriffith$style_elements$Element$Internal$Model$Text, dec, content),
+						node: 'div',
+						style: elm$core$Maybe$Nothing
+					});
+		}
+	});
+var mdgriffith$style_elements$Style$Internal$Model$GridPosition = function (a) {
+	return {$: 'GridPosition', a: a};
+};
+var mdgriffith$style_elements$Element$cell = function (box) {
+	var coords = {height: box.height, start: box.start, width: box.width};
+	return mdgriffith$style_elements$Element$Internal$Model$OnGrid(
+		A2(
+			mdgriffith$style_elements$Element$Internal$Modify$addAttr,
+			mdgriffith$style_elements$Element$Internal$Model$GridCoords(
+				mdgriffith$style_elements$Style$Internal$Model$GridPosition(coords)),
+			box.content));
+};
+var elm$core$Basics$mul = _Basics_mul;
+var elm$core$String$fromFloat = _String_fromNumber;
 var elm$core$Result$isOk = function (result) {
 	if (result.$ === 'Ok') {
 		return true;
@@ -4988,12 +5072,7 @@ var elm$core$Array$treeFromBuilder = F2(
 			}
 		}
 	});
-var elm$core$Basics$apL = F2(
-	function (f, x) {
-		return f(x);
-	});
 var elm$core$Basics$floor = _Basics_floor;
-var elm$core$Basics$mul = _Basics_mul;
 var elm$core$Elm$JsArray$length = _JsArray_length;
 var elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
@@ -5120,6 +5199,7 @@ var elm$core$List$indexedMap = F2(
 			xs);
 	});
 var elm$core$String$all = _String_all;
+var elm$core$String$fromInt = _String_fromNumber;
 var elm$core$String$join = F2(
 	function (sep, chunks) {
 		return A2(
@@ -5258,145 +5338,47 @@ var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
-var elm$html$Html$Attributes$tabindex = function (n) {
-	return A2(
-		_VirtualDom_attribute,
-		'tabIndex',
-		elm$core$String$fromInt(n));
-};
-var elm$json$Json$Encode$string = _Json_wrap;
-var elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			elm$json$Json$Encode$string(string));
-	});
-var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
+var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
 var mdgriffith$style_elements$Element$Internal$Model$Attr = function (a) {
 	return {$: 'Attr', a: a};
 };
-var mdgriffith$style_elements$Element$Attributes$class = function (cls) {
-	return mdgriffith$style_elements$Element$Internal$Model$Attr(
-		elm$html$Html$Attributes$class(cls));
+var mdgriffith$style_elements$Element$Internal$Model$Height = function (a) {
+	return {$: 'Height', a: a};
 };
-var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var mdgriffith$style_elements$Element$Attributes$inlineStyle = F2(
-	function (name, val) {
-		return mdgriffith$style_elements$Element$Internal$Model$Attr(
-			A2(elm$virtual_dom$VirtualDom$style, name, val));
-	});
-var mdgriffith$style_elements$Element$Attributes$toAttr = mdgriffith$style_elements$Element$Internal$Model$Attr;
-var mdgriffith$style_elements$Element$Internal$Model$Element = function (a) {
-	return {$: 'Element', a: a};
+var mdgriffith$style_elements$Element$Internal$Model$Width = function (a) {
+	return {$: 'Width', a: a};
 };
-var mdgriffith$style_elements$Element$button = F3(
-	function (style, attrs, child) {
+var mdgriffith$style_elements$Style$Internal$Model$Px = function (a) {
+	return {$: 'Px', a: a};
+};
+var mdgriffith$style_elements$Element$circle = F4(
+	function (radius, style, attrs, child) {
 		return mdgriffith$style_elements$Element$Internal$Model$Element(
 			{
 				absolutelyPositioned: elm$core$Maybe$Nothing,
 				attrs: A2(
 					elm$core$List$cons,
-					mdgriffith$style_elements$Element$Attributes$class('button-focus'),
+					mdgriffith$style_elements$Element$Internal$Model$Attr(
+						A2(
+							elm$html$Html$Attributes$style,
+							'border-radius',
+							elm$core$String$fromFloat(radius) + 'px')),
 					A2(
 						elm$core$List$cons,
-						A2(mdgriffith$style_elements$Element$Attributes$inlineStyle, 'cursor', 'pointer'),
+						mdgriffith$style_elements$Element$Internal$Model$Width(
+							mdgriffith$style_elements$Style$Internal$Model$Px(2 * radius)),
 						A2(
 							elm$core$List$cons,
-							mdgriffith$style_elements$Element$Attributes$toAttr(
-								elm$html$Html$Attributes$tabindex(0)),
+							mdgriffith$style_elements$Element$Internal$Model$Height(
+								mdgriffith$style_elements$Style$Internal$Model$Px(2 * radius)),
 							attrs))),
 				child: child,
-				node: 'button',
+				node: 'div',
 				style: elm$core$Maybe$Just(style)
 			});
 	});
-var mdgriffith$style_elements$Element$Internal$Model$GridCoords = function (a) {
-	return {$: 'GridCoords', a: a};
-};
-var mdgriffith$style_elements$Element$Internal$Model$OnGrid = function (a) {
-	return {$: 'OnGrid', a: a};
-};
-var mdgriffith$style_elements$Element$Internal$Model$Empty = {$: 'Empty'};
-var mdgriffith$style_elements$Element$Internal$Model$Layout = function (a) {
-	return {$: 'Layout', a: a};
-};
-var mdgriffith$style_elements$Element$Internal$Model$Raw = function (a) {
-	return {$: 'Raw', a: a};
-};
-var mdgriffith$style_elements$Element$Internal$Model$Spacer = function (a) {
-	return {$: 'Spacer', a: a};
-};
-var mdgriffith$style_elements$Element$Internal$Model$Text = F2(
-	function (a, b) {
-		return {$: 'Text', a: a, b: b};
-	});
-var mdgriffith$style_elements$Element$Internal$Modify$addAttr = F2(
-	function (prop, el) {
-		switch (el.$) {
-			case 'Empty':
-				return mdgriffith$style_elements$Element$Internal$Model$Empty;
-			case 'Raw':
-				var h = el.a;
-				return mdgriffith$style_elements$Element$Internal$Model$Raw(h);
-			case 'Spacer':
-				var x = el.a;
-				return mdgriffith$style_elements$Element$Internal$Model$Spacer(x);
-			case 'Layout':
-				var elm = el.a;
-				return mdgriffith$style_elements$Element$Internal$Model$Layout(
-					_Utils_update(
-						elm,
-						{
-							attrs: A2(elm$core$List$cons, prop, elm.attrs)
-						}));
-			case 'Element':
-				var elm = el.a;
-				return mdgriffith$style_elements$Element$Internal$Model$Element(
-					_Utils_update(
-						elm,
-						{
-							attrs: A2(elm$core$List$cons, prop, elm.attrs)
-						}));
-			default:
-				var dec = el.a;
-				var content = el.b;
-				return mdgriffith$style_elements$Element$Internal$Model$Element(
-					{
-						absolutelyPositioned: elm$core$Maybe$Nothing,
-						attrs: _List_fromArray(
-							[prop]),
-						child: A2(mdgriffith$style_elements$Element$Internal$Model$Text, dec, content),
-						node: 'div',
-						style: elm$core$Maybe$Nothing
-					});
-		}
-	});
-var mdgriffith$style_elements$Style$Internal$Model$GridPosition = function (a) {
-	return {$: 'GridPosition', a: a};
-};
-var mdgriffith$style_elements$Element$cell = function (box) {
-	var coords = {height: box.height, start: box.start, width: box.width};
-	return mdgriffith$style_elements$Element$Internal$Model$OnGrid(
-		A2(
-			mdgriffith$style_elements$Element$Internal$Modify$addAttr,
-			mdgriffith$style_elements$Element$Internal$Model$GridCoords(
-				mdgriffith$style_elements$Style$Internal$Model$GridPosition(coords)),
-			box.content));
-};
 var mdgriffith$style_elements$Element$empty = mdgriffith$style_elements$Element$Internal$Model$Empty;
-var mdgriffith$style_elements$Element$Internal$Model$Height = function (a) {
-	return {$: 'Height', a: a};
-};
-var mdgriffith$style_elements$Element$Attributes$height = mdgriffith$style_elements$Element$Internal$Model$Height;
-var mdgriffith$style_elements$Style$Internal$Model$Px = function (a) {
-	return {$: 'Px', a: a};
-};
-var mdgriffith$style_elements$Element$Attributes$px = mdgriffith$style_elements$Style$Internal$Model$Px;
-var mdgriffith$style_elements$Element$Internal$Model$Width = function (a) {
-	return {$: 'Width', a: a};
-};
-var mdgriffith$style_elements$Element$Attributes$width = mdgriffith$style_elements$Element$Internal$Model$Width;
 var elm$core$Basics$composeL = F3(
 	function (g, f, x) {
 		return g(
@@ -5426,17 +5408,14 @@ var mdgriffith$style_elements$Element$Events$onClick = A2(elm$core$Basics$compos
 var author$project$Main$drawHole = function (hole) {
 	return mdgriffith$style_elements$Element$cell(
 		{
-			content: A3(
-				mdgriffith$style_elements$Element$button,
+			content: A4(
+				mdgriffith$style_elements$Element$circle,
+				20,
 				author$project$Main$HoleStyle,
 				_List_fromArray(
 					[
 						mdgriffith$style_elements$Element$Events$onClick(
-						author$project$Main$Move(hole)),
-						mdgriffith$style_elements$Element$Attributes$height(
-						mdgriffith$style_elements$Element$Attributes$px(40)),
-						mdgriffith$style_elements$Element$Attributes$width(
-						mdgriffith$style_elements$Element$Attributes$px(40))
+						author$project$Main$Move(hole))
 					]),
 				mdgriffith$style_elements$Element$empty),
 			height: 1,
@@ -5464,17 +5443,14 @@ var author$project$Main$drawPeg = F2(
 		}();
 		return mdgriffith$style_elements$Element$cell(
 			{
-				content: A3(
-					mdgriffith$style_elements$Element$button,
+				content: A4(
+					mdgriffith$style_elements$Element$circle,
+					20,
 					author$project$Main$PegStyle(style),
 					_List_fromArray(
 						[
 							mdgriffith$style_elements$Element$Events$onClick(
-							author$project$Main$Select(peg)),
-							mdgriffith$style_elements$Element$Attributes$height(
-							mdgriffith$style_elements$Element$Attributes$px(40)),
-							mdgriffith$style_elements$Element$Attributes$width(
-							mdgriffith$style_elements$Element$Attributes$px(40))
+							author$project$Main$Select(peg))
 						]),
 					mdgriffith$style_elements$Element$empty),
 				height: 1,
@@ -5482,6 +5458,39 @@ var author$project$Main$drawPeg = F2(
 				width: 1
 			});
 	});
+var author$project$Main$Continue = {$: 'Continue'};
+var author$project$Main$Lose = {$: 'Lose'};
+var author$project$Main$Win = {$: 'Win'};
+var author$project$Main$gameStatus = function (model) {
+	var movable = function (peg) {
+		return (A2(
+			elm$core$List$member,
+			{x: peg.x + 1, y: peg.y},
+			model.pegs) && A2(
+			elm$core$List$member,
+			{x: peg.x + 2, y: peg.y},
+			model.holes)) || ((A2(
+			elm$core$List$member,
+			{x: peg.x - 1, y: peg.y},
+			model.pegs) && A2(
+			elm$core$List$member,
+			{x: peg.x - 2, y: peg.y},
+			model.holes)) || ((A2(
+			elm$core$List$member,
+			{x: peg.x, y: peg.y + 1},
+			model.pegs) && A2(
+			elm$core$List$member,
+			{x: peg.x, y: peg.y + 2},
+			model.holes)) || (A2(
+			elm$core$List$member,
+			{x: peg.x, y: peg.y - 1},
+			model.pegs) && A2(
+			elm$core$List$member,
+			{x: peg.x, y: peg.y - 2},
+			model.holes))));
+	};
+	return (elm$core$List$length(model.pegs) === 1) ? author$project$Main$Win : (A2(elm$core$List$any, movable, model.pegs) ? author$project$Main$Continue : author$project$Main$Lose);
+};
 var mdgriffith$style_elements$Style$Internal$Model$RGBA = F4(
 	function (a, b, c, d) {
 		return {$: 'RGBA', a: a, b: b, c: c, d: d};
@@ -6467,7 +6476,6 @@ var mdgriffith$style_elements$Style$Internal$Intermediate$Props = function (a) {
 	return {$: 'Props', a: a};
 };
 var mdgriffith$style_elements$Style$Internal$Intermediate$props = mdgriffith$style_elements$Style$Internal$Intermediate$Props;
-var elm$core$String$fromFloat = _String_fromNumber;
 var elm$core$Basics$round = _Basics_round;
 var mdgriffith$style_elements$Style$Internal$Render$Value$color = function (_n0) {
 	var red = _n0.a;
@@ -8091,6 +8099,31 @@ var mdgriffith$style_elements$Style$Color$background = function (clr) {
 		'background-color',
 		mdgriffith$style_elements$Style$Internal$Render$Value$color(clr));
 };
+var mdgriffith$style_elements$Style$Internal$Model$Font = F2(
+	function (a, b) {
+		return {$: 'Font', a: a, b: b};
+	});
+var mdgriffith$style_elements$Style$Font$size = function (i) {
+	return A2(
+		mdgriffith$style_elements$Style$Internal$Model$Font,
+		'font-size',
+		elm$core$String$fromFloat(i) + 'px');
+};
+var mdgriffith$style_elements$Style$Shadow$glow = F2(
+	function (color, size) {
+		return mdgriffith$style_elements$Style$Internal$Model$Shadows(
+			_List_fromArray(
+				[
+					mdgriffith$style_elements$Style$Internal$Model$ShadowModel(
+					{
+						blur: size * 2,
+						color: color,
+						kind: 'box',
+						offset: _Utils_Tuple2(0, 0),
+						size: size
+					})
+				]));
+	});
 var author$project$Main$ss = mdgriffith$style_elements$Style$styleSheet(
 	_List_fromArray(
 		[
@@ -8101,7 +8134,10 @@ var author$project$Main$ss = mdgriffith$style_elements$Style$styleSheet(
 				[
 					mdgriffith$style_elements$Style$Color$background(
 					A4(mdgriffith$style_elements$Style$rgba, 0, 0, 1, 1)),
-					mdgriffith$style_elements$Style$Border$rounded(10.0)
+					A2(
+					mdgriffith$style_elements$Style$Shadow$glow,
+					A4(mdgriffith$style_elements$Style$rgba, 0, 0, 0, 1),
+					1)
 				])),
 			A2(
 			mdgriffith$style_elements$Style$style,
@@ -8110,7 +8146,10 @@ var author$project$Main$ss = mdgriffith$style_elements$Style$styleSheet(
 				[
 					mdgriffith$style_elements$Style$Color$background(
 					A4(mdgriffith$style_elements$Style$rgba, 0, 1, 0, 1)),
-					mdgriffith$style_elements$Style$Border$rounded(10.0)
+					A2(
+					mdgriffith$style_elements$Style$Shadow$glow,
+					A4(mdgriffith$style_elements$Style$rgba, 0, 0, 0, 1),
+					1)
 				])),
 			A2(
 			mdgriffith$style_elements$Style$style,
@@ -8118,13 +8157,93 @@ var author$project$Main$ss = mdgriffith$style_elements$Style$styleSheet(
 			_List_fromArray(
 				[
 					mdgriffith$style_elements$Style$Color$background(
-					A4(mdgriffith$style_elements$Style$rgba, 1, 0, 0, 0)),
+					A4(mdgriffith$style_elements$Style$rgba, 0, 0, 0, 0)),
+					A2(
+					mdgriffith$style_elements$Style$Shadow$glow,
+					A4(mdgriffith$style_elements$Style$rgba, 0, 0, 0, 1),
+					1)
+				])),
+			A2(
+			mdgriffith$style_elements$Style$style,
+			author$project$Main$MessageStyle,
+			_List_fromArray(
+				[
+					mdgriffith$style_elements$Style$Font$size(32)
+				])),
+			A2(
+			mdgriffith$style_elements$Style$style,
+			author$project$Main$ButtonStyle,
+			_List_fromArray(
+				[
 					mdgriffith$style_elements$Style$Border$rounded(10.0)
 				]))
 		]));
+var elm$html$Html$Attributes$tabindex = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'tabIndex',
+		elm$core$String$fromInt(n));
+};
+var elm$json$Json$Encode$string = _Json_wrap;
+var elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			elm$json$Json$Encode$string(string));
+	});
+var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
+var mdgriffith$style_elements$Element$Attributes$class = function (cls) {
+	return mdgriffith$style_elements$Element$Internal$Model$Attr(
+		elm$html$Html$Attributes$class(cls));
+};
+var mdgriffith$style_elements$Element$Attributes$inlineStyle = F2(
+	function (name, val) {
+		return mdgriffith$style_elements$Element$Internal$Model$Attr(
+			A2(elm$virtual_dom$VirtualDom$style, name, val));
+	});
+var mdgriffith$style_elements$Element$Attributes$toAttr = mdgriffith$style_elements$Element$Internal$Model$Attr;
+var mdgriffith$style_elements$Element$button = F3(
+	function (style, attrs, child) {
+		return mdgriffith$style_elements$Element$Internal$Model$Element(
+			{
+				absolutelyPositioned: elm$core$Maybe$Nothing,
+				attrs: A2(
+					elm$core$List$cons,
+					mdgriffith$style_elements$Element$Attributes$class('button-focus'),
+					A2(
+						elm$core$List$cons,
+						A2(mdgriffith$style_elements$Element$Attributes$inlineStyle, 'cursor', 'pointer'),
+						A2(
+							elm$core$List$cons,
+							mdgriffith$style_elements$Element$Attributes$toAttr(
+								elm$html$Html$Attributes$tabindex(0)),
+							attrs))),
+				child: child,
+				node: 'button',
+				style: elm$core$Maybe$Just(style)
+			});
+	});
 var mdgriffith$style_elements$Element$Internal$Model$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
+var mdgriffith$style_elements$Style$Internal$Model$Down = {$: 'Down'};
+var mdgriffith$style_elements$Style$Internal$Model$FlexLayout = F2(
+	function (a, b) {
+		return {$: 'FlexLayout', a: a, b: b};
+	});
+var mdgriffith$style_elements$Element$column = F3(
+	function (style, attrs, children) {
+		return mdgriffith$style_elements$Element$Internal$Model$Layout(
+			{
+				absolutelyPositioned: elm$core$Maybe$Nothing,
+				attrs: attrs,
+				children: mdgriffith$style_elements$Element$Internal$Model$Normal(children),
+				layout: A2(mdgriffith$style_elements$Style$Internal$Model$FlexLayout, mdgriffith$style_elements$Style$Internal$Model$Down, _List_Nil),
+				node: 'div',
+				style: elm$core$Maybe$Just(style)
+			});
+	});
 var mdgriffith$style_elements$Style$Internal$Model$Grid = F2(
 	function (a, b) {
 		return {$: 'Grid', a: a, b: b};
@@ -8246,10 +8365,6 @@ var mdgriffith$style_elements$Element$Internal$Model$VAlign = function (a) {
 	return {$: 'VAlign', a: a};
 };
 var mdgriffith$style_elements$Element$Internal$Model$VerticalCenter = {$: 'VerticalCenter'};
-var mdgriffith$style_elements$Style$Internal$Model$FlexLayout = F2(
-	function (a, b) {
-		return {$: 'FlexLayout', a: a, b: b};
-	});
 var mdgriffith$style_elements$Style$Internal$Model$GoRight = {$: 'GoRight'};
 var mdgriffith$style_elements$Element$Internal$Adjustments$centerTextLayout = function (elm) {
 	if (elm.$ === 'Layout') {
@@ -8337,7 +8452,6 @@ var mdgriffith$style_elements$Element$Internal$Adjustments$hoistFixedScreenEleme
 			return _Utils_Tuple2(el, elm$core$Maybe$Nothing);
 	}
 };
-var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
 var elm$core$Tuple$mapSecond = F2(
 	function (func, _n0) {
 		var x = _n0.a;
@@ -11719,30 +11833,104 @@ var mdgriffith$style_elements$Element$Internal$Render$root = F2(
 				A2(mdgriffith$style_elements$Element$Internal$Render$render, stylesheet, elm)));
 	});
 var mdgriffith$style_elements$Element$layout = mdgriffith$style_elements$Element$Internal$Render$root;
+var mdgriffith$style_elements$Element$spacer = mdgriffith$style_elements$Element$Internal$Model$Spacer;
+var mdgriffith$style_elements$Element$Internal$Model$NoDecoration = {$: 'NoDecoration'};
+var mdgriffith$style_elements$Element$text = mdgriffith$style_elements$Element$Internal$Model$Text(
+	{decoration: mdgriffith$style_elements$Element$Internal$Model$NoDecoration, inline: false});
+var mdgriffith$style_elements$Element$Attributes$center = mdgriffith$style_elements$Element$Internal$Model$HAlign(mdgriffith$style_elements$Element$Internal$Model$Center);
+var mdgriffith$style_elements$Element$Attributes$padding = function (x) {
+	return A4(
+		mdgriffith$style_elements$Element$Internal$Model$Padding,
+		elm$core$Maybe$Just(x),
+		elm$core$Maybe$Just(x),
+		elm$core$Maybe$Just(x),
+		elm$core$Maybe$Just(x));
+};
+var mdgriffith$style_elements$Element$Attributes$px = mdgriffith$style_elements$Style$Internal$Model$Px;
+var mdgriffith$style_elements$Element$Attributes$spacing = function (x) {
+	return A2(mdgriffith$style_elements$Element$Internal$Model$Spacing, x, x);
+};
 var author$project$Main$view = function (model) {
 	return A2(
 		mdgriffith$style_elements$Element$layout,
 		author$project$Main$ss,
-		A3(
-			mdgriffith$style_elements$Element$grid,
-			author$project$Main$GridStyle,
-			_List_Nil,
-			{
-				cells: _Utils_ap(
-					A2(
-						elm$core$List$map,
-						author$project$Main$drawPeg(model.selected),
-						model.pegs),
-					A2(elm$core$List$map, author$project$Main$drawHole, model.holes)),
-				columns: A2(
-					elm$core$List$repeat,
-					(author$project$Main$rangeBoard.xmax - author$project$Main$rangeBoard.xmin) + 1,
-					mdgriffith$style_elements$Element$Attributes$px(50)),
-				rows: A2(
-					elm$core$List$repeat,
-					(author$project$Main$rangeBoard.ymax - author$project$Main$rangeBoard.ymin) + 1,
-					mdgriffith$style_elements$Element$Attributes$px(50))
-			}));
+		function () {
+			var _n0 = author$project$Main$gameStatus(model);
+			switch (_n0.$) {
+				case 'Continue':
+					return A3(
+						mdgriffith$style_elements$Element$grid,
+						author$project$Main$GridStyle,
+						_List_fromArray(
+							[
+								mdgriffith$style_elements$Element$Attributes$padding(10)
+							]),
+						{
+							cells: _Utils_ap(
+								A2(
+									elm$core$List$map,
+									author$project$Main$drawPeg(model.selected),
+									model.pegs),
+								A2(elm$core$List$map, author$project$Main$drawHole, model.holes)),
+							columns: A2(
+								elm$core$List$repeat,
+								(author$project$Main$rangeBoard.xmax - author$project$Main$rangeBoard.xmin) + 1,
+								mdgriffith$style_elements$Element$Attributes$px(50)),
+							rows: A2(
+								elm$core$List$repeat,
+								(author$project$Main$rangeBoard.ymax - author$project$Main$rangeBoard.ymin) + 1,
+								mdgriffith$style_elements$Element$Attributes$px(50))
+						});
+				case 'Win':
+					return A3(
+						mdgriffith$style_elements$Element$column,
+						author$project$Main$MessageStyle,
+						_List_fromArray(
+							[
+								mdgriffith$style_elements$Element$Attributes$padding(100),
+								mdgriffith$style_elements$Element$Attributes$spacing(20),
+								mdgriffith$style_elements$Element$Attributes$center
+							]),
+						_List_fromArray(
+							[
+								mdgriffith$style_elements$Element$text('Gagné'),
+								mdgriffith$style_elements$Element$spacer(1),
+								A3(
+								mdgriffith$style_elements$Element$button,
+								author$project$Main$ButtonStyle,
+								_List_fromArray(
+									[
+										mdgriffith$style_elements$Element$Attributes$padding(10),
+										mdgriffith$style_elements$Element$Events$onClick(author$project$Main$Restart)
+									]),
+								mdgriffith$style_elements$Element$text('Rejouer'))
+							]));
+				default:
+					return A3(
+						mdgriffith$style_elements$Element$column,
+						author$project$Main$MessageStyle,
+						_List_fromArray(
+							[
+								mdgriffith$style_elements$Element$Attributes$padding(100),
+								mdgriffith$style_elements$Element$Attributes$spacing(20),
+								mdgriffith$style_elements$Element$Attributes$center
+							]),
+						_List_fromArray(
+							[
+								mdgriffith$style_elements$Element$text('Perdu'),
+								mdgriffith$style_elements$Element$spacer(1),
+								A3(
+								mdgriffith$style_elements$Element$button,
+								author$project$Main$ButtonStyle,
+								_List_fromArray(
+									[
+										mdgriffith$style_elements$Element$Attributes$padding(10),
+										mdgriffith$style_elements$Element$Events$onClick(author$project$Main$Restart)
+									]),
+								mdgriffith$style_elements$Element$text('Rejouer'))
+							]));
+			}
+		}());
 };
 var elm$core$Platform$Cmd$batch = _Platform_batch;
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);

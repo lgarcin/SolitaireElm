@@ -1,16 +1,19 @@
 module Main exposing (Board, GameStatus(..), Hole, Model, Msg(..), Peg, Position, Range, board, gameStatus, initModel, main, update, view)
 
 import Browser
-import Element exposing (Element, OnGrid, button, cell, circle, empty, grid, layout, text, textLayout)
-import Element.Attributes exposing (padding, paddingLeft, px)
+import Element exposing (Element, OnGrid, button, cell, circle, column, empty, grid, layout, spacer, text)
+import Element.Attributes exposing (center, padding, px, spacing)
 import Element.Events exposing (onClick)
 import Html exposing (Html)
 import List exposing (any, filter, length, map, maximum, member, minimum, partition, range, repeat)
 import List.Extra exposing (lift2)
 import Style exposing (StyleSheet, rgba, style, styleSheet)
-import Style.Color exposing (background)
+import Style.Border exposing (rounded)
+import Style.Color exposing (background, border)
+import Style.Font exposing (size)
+import Style.Shadow exposing (glow)
 
-
+main : Program () Model Msg
 main =
     Browser.sandbox { init = initModel, update = update, view = view }
 
@@ -134,7 +137,8 @@ type Styles
     = PegStyle PegStyles
     | HoleStyle
     | GridStyle
-    | Button
+    | ButtonStyle
+    | MessageStyle
 
 
 type PegStyles
@@ -145,9 +149,11 @@ type PegStyles
 ss : StyleSheet Styles variation
 ss =
     styleSheet
-        [ style (PegStyle Selected) [ background (rgba 0 0 1 1) ]
-        , style (PegStyle NotSelected) [ background (rgba 0 1 0 1) ]
-        , style HoleStyle [ background (rgba 0 0 0 0) ]
+        [ style (PegStyle Selected) [ background (rgba 0 0 1 1), glow (rgba 0 0 0 1) 1 ]
+        , style (PegStyle NotSelected) [ background (rgba 0 1 0 1), glow (rgba 0 0 0 1) 1 ]
+        , style HoleStyle [ background (rgba 0 0 0 0), glow (rgba 0 0 0 1) 1 ]
+        , style MessageStyle [ size 32 ]
+        , style ButtonStyle [ rounded 10.0 ]
         ]
 
 
@@ -232,15 +238,17 @@ view model =
                     }
 
             Win ->
-                textLayout GridStyle
-                    [ padding 100 ]
+                column MessageStyle
+                    [ padding 100, spacing 20, center ]
                     [ text "Gagné"
-                    , button Button [ paddingLeft 10, onClick Restart ] (text "Rejouer")
+                    , spacer 1
+                    , button ButtonStyle [ padding 10, onClick Restart ] (text "Rejouer")
                     ]
 
             Lose ->
-                textLayout GridStyle
-                    [ padding 100 ]
+                column MessageStyle
+                    [ padding 100, spacing 20, center ]
                     [ text "Perdu"
-                    , button Button [ paddingLeft 10, onClick Restart ] (text "Rejouer")
+                    , spacer 1
+                    , button ButtonStyle [ padding 10, onClick Restart ] (text "Rejouer")
                     ]
