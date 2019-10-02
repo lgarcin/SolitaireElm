@@ -1,4 +1,4 @@
-module Main exposing (Board, GameStatus(..), Hole, Model, Msg(..), Peg, Position, Range, board, gameStatus, initModel, main, update, view)
+module Main exposing (Board, GameStatus(..), Hole, Model, Msg(..), Peg, Position, Range, gameStatus, initModel, main, update, view)
 
 import Browser
 import Element exposing (Element, OnGrid, button, cell, circle, column, empty, grid, layout, spacer, text)
@@ -12,6 +12,7 @@ import Style.Border exposing (rounded)
 import Style.Color exposing (background, border)
 import Style.Font exposing (size)
 import Style.Shadow exposing (glow)
+
 
 main : Program () Model Msg
 main =
@@ -60,22 +61,39 @@ type GameStatus
     | Continue
 
 
-board : List Position
-board =
+type BoardType
+    = French
+    | English
+
+
+board : BoardType -> Model
+board boardType =
     let
         r =
             range -3 3
+
+        b =
+            case boardType of
+                French ->
+                    filter (\pos -> abs pos.x + abs pos.y <= 4) (lift2 (\i j -> { x = i, y = j }) r r)
+
+                English ->
+                    filter (\pos -> abs pos.x <= 1 || abs pos.y <= 1) (lift2 (\i j -> { x = i, y = j }) r r)
+
+        ( h, p ) =
+            case boardType of
+                French ->
+                    partition (\pos -> pos == { x = 0, y = 1 }) b
+
+                English ->
+                    partition (\pos -> pos == { x = 0, y = 0 }) b
     in
-    filter (\pos -> abs pos.x + abs pos.y <= 4) (lift2 (\i j -> { x = i, y = j }) r r)
+    { pegs = p, holes = h, selected = Nothing }
 
 
 initModel : Model
 initModel =
-    let
-        ( h, p ) =
-            partition (\pos -> pos == { x = 0, y = 1 }) board
-    in
-    { pegs = p, holes = h, selected = Nothing }
+    board French
 
 
 gameStatus : Model -> GameStatus
